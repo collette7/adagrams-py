@@ -1,20 +1,29 @@
 from random import randint
-# Letter pool that represents each letter and how many times it shows in the pool
-def draw_letters():
-    letter_pool = (
-        ["A"] * 9 + ["B"] * 2 + ["C"] * 2 + ["D"] * 4 + 
-        ["E"] * 12 + ["F"] * 2 + ["G"] * 3 + ["H"] * 2 +
-        ["I"] * 9 + ["J"] * 1 + ["K"] * 1 + ["L"] * 4 +
-        ["M"] * 2 + ["N"] * 6 + ["O"] * 8 + ["P"] * 2 +
-        ["Q"] * 1 + ["R"] * 6 + ["S"] * 4 + ["T"] * 6 +
-        ["U"] * 4 + ["V"] * 2 + ["W"] * 2 + ["X"] * 1 + ["Y"] * 2 + ["Z"] * 1
-    )
 
-    # Pick 10 random letters while allowing duplicates
+def draw_letters():
+    # Create a dictionary to track available letters
+    letter_pool = {
+        'A': 9, 'B': 2, 'C': 2, 'D': 4, 'E': 12, 
+        'F': 2, 'G': 3, 'H': 2, 'I': 9, 'J': 1, 
+        'K': 1, 'L': 4, 'M': 2, 'N': 6, 'O': 8, 
+        'P': 2, 'Q': 1, 'R': 6, 'S': 4, 'T': 6, 
+        'U': 4, 'V': 2, 'W': 2, 'X': 1, 'Y': 2, 'Z': 1
+    }
+    
+    # list of all letters
+    all_letters = []
+    for letter, count in letter_pool.items():
+        all_letters.extend([letter] * count)
+    
+    # Draw 10 random letters from list
     hand = []
+    remaining_letters = all_letters.copy() 
+    
     for i in range(10):
-        random_index = randint(0, len(letter_pool) - 1)
-        hand.append(letter_pool[random_index])
+        if remaining_letters:
+            draw_position = randint(0, len(remaining_letters) - 1)
+            selected_letter = remaining_letters.pop(draw_position)
+            hand.append(selected_letter)
     
     return hand
 
