@@ -29,7 +29,11 @@ def draw_letters():
 
 
 def uses_available_letters(word, letter_bank):
-    pass
+    # Check if word uses available letters
+    # Convert the word to uppercase so we can ignore case
+    # Make sure words are only using availible letters else invalid
+    # block overuse of letters
+    # We must get through whole word without running out of letters for word to be vaild
 
 def score_word(word):
     pass
