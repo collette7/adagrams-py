@@ -7,24 +7,17 @@ def draw_letters():
         ["I"] * 9 + ["J"] * 1 + ["K"] * 1 + ["L"] * 4 +
         ["M"] * 2 + ["N"] * 6 + ["O"] * 8 + ["P"] * 2 +
         ["Q"] * 1 + ["R"] * 6 + ["S"] * 4 + ["T"] * 6 +
-        ["V"] * 4 + ["W"] * 2 + ["X"] * 1 + ["Y"] * 2 + ["Z"] * 1
+        ["U"] * 4 + ["V"] * 2 + ["W"] * 2 + ["X"] * 1 + ["Y"] * 2 + ["Z"] * 1
     )
 
-# # Add letters to list
-# loop each (letter, quantity) in letter_distribution: 
-#         add letter to letter_pool quantity times   
+    # Pick 10 random letters while allowing duplicates
+    hand = []
+    for i in range(10):
+        random_index = randint(0, len(letter_pool) - 1)
+        hand.append(letter_pool[random_index])
+    
+    return hand
 
-#     # Keep track of drawn letters 
-#     drawn_letters = []  
-
-#     # 10x it an randomize append to list
-#     loop 10 times:  
-#         random.function = random number between 0 and len(letter_pool) - 1  
-#         letter = letter_pool[random.function]  
-#         add letter to drawn_letters  
-
-#     # return letters
-#     return drawn_letters  
 
 def uses_available_letters(word, letter_bank):
     pass
