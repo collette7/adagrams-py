@@ -81,12 +81,88 @@ def score_word(word):
     for letter in word:
         score += letter_points[letter]
     
-    # Add bonus points for words of length 7-10
+    # Add bonus points for words 7-10 letters long
     if 7 <= len(word) <= 10:
         score += 8
     
     return score
 
 def get_highest_word_score(word_list):
-    pass
+
+    if not word_list:
+        return None
+    
+    word_positions = {}
+    for i in range(len(word_list)):
+        word = word_list[i]
+        if word not in word_positions:
+            word_positions[word] = i
+    
+    # Dctionary that stores each words metadata
+    word_metadata = {}
+    for word in word_list:
+        word_metadata[word] = {
+            'score': score_word(word),
+            'length': len(word),
+            'position': word_positions[word]
+        }
+    
+    # Find the highest score
+    highest_score = 0
+    for word, metadata in word_metadata.items():
+        if metadata['score'] > highest_score:
+            highest_score = metadata['score']
+    
+    # Only show words with the highest score
+    highest_words = []
+    for word in word_list: 
+        if word in word_metadata and word_metadata[word]['score'] == highest_score:
+            highest_words.append(word)
+            
+    # Remove duplicates while preserving order
+    highest_words = list(dict.fromkeys(highest_words))
+    
+    # If only one word has the highest score, return it
+    if len(highest_words) == 1:
+        winning_word = highest_words[0]
+        return (winning_word, word_metadata[winning_word]['score'])
+    
+    # Tiebreaker 1 - Check for 10-letter words
+    ten_letter_words = []
+    for word in highest_words:
+        if word_metadata[word]['length'] == 10:
+            ten_letter_words.append(word)
+    
+    # If any word has exactly 10 letters, return the first one from the original list
+    if ten_letter_words:
+        best_word = ten_letter_words[0]
+        for word in ten_letter_words:
+            if word_metadata[word]['position'] < word_metadata[best_word]['position']:
+                best_word = word
+        
+        return (best_word, word_metadata[best_word]['score'])
+    
+    # Tiebreaker 2 - Find shortest word length
+    min_length = word_metadata[highest_words[0]]['length']
+    for word in highest_words[1:]:  # Skip the first word since we already used it
+        if word_metadata[word]['length'] < min_length:
+            min_length = word_metadata[word]['length']
+    
+    shortest_words = []
+    for word in highest_words:
+        if word_metadata[word]['length'] == min_length:
+            shortest_words.append(word)
+    
+    # If there's only one shortest word, return it
+    if len(shortest_words) == 1:
+        winning_word = shortest_words[0]
+        return (winning_word, word_metadata[winning_word]['score'])
+    
+    # Tiebreaker 3 - If still tied, give preference to the first word in the original list
+    best_word = shortest_words[0]
+    for word in shortest_words:
+        if word_metadata[word]['position'] < word_metadata[best_word]['position']:
+            best_word = word
+    
+    return (best_word, word_metadata[best_word]['score'])
 
